@@ -5,6 +5,7 @@ import requests
 from datetime import datetime
 from robot.api import ExecutionResult
 
+
 def get_base_url():
     port = "8000"
     codespace = os.getenv("CODESPACE_NAME")
@@ -27,15 +28,21 @@ def get_base_url():
     print(f"✅ Using localhost endpoint {local_url}")
     return local_url
 
+
 BASE_URL = get_base_url()
+
 
 def run_robot():
     print(f"\n➡️ Running tests against: {BASE_URL}\n")
-    subprocess.run([
-        "robot",
-        "--variable", f"BASE_URL:{BASE_URL}",
-        "robot-tests/suites/generated.robot"
-    ], check=True)
+    subprocess.run(
+        [
+            "robot",
+            "--variable",
+            f"BASE_URL:{BASE_URL}",
+            "robot-tests/suites/generated.robot",
+        ],
+        check=True,
+    )
 
     result = ExecutionResult("output.xml")
 
@@ -45,7 +52,9 @@ def run_robot():
     skipped_tests = result.statistics.total.skipped
 
     print("\n=== Test Summary ===")
-    print(f"Total: {total_tests}, Passed: {passed_tests}, Failed: {failed_tests}, Skipped: {skipped_tests}")
+    print(
+        f"Total: {total_tests}, Passed: {passed_tests}, Failed: {failed_tests}, Skipped: {skipped_tests}"
+    )
 
     # Insights
     pass_rate = (passed_tests / total_tests * 100) if total_tests else 0
@@ -59,10 +68,11 @@ def run_robot():
         "pass_rate_percent": round(pass_rate, 2),
         "fail_rate_percent": round(fail_rate, 2),
         "endpoint": BASE_URL,
-        "timestamp": datetime.now().isoformat(timespec="seconds")
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
     }
 
     return insights
+
 
 if __name__ == "__main__":
     stats = run_robot()

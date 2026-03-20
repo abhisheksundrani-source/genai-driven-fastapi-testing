@@ -1,173 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.12.1 on linux)" generated="2026-03-20T14:42:38.889017" rpa="false" schemaversion="5">
-<suite id="s1" name="Generated" source="/workspaces/genai-driven-fastapi-testing/robot-tests/suites/generated.robot">
-<test id="s1-t1" name="Hello API Existing Cases" line="6">
+<robot generator="Robot 7.4.2 (Python 3.12.1 on linux)" generated="2026-03-20T18:09:14.025877" rpa="false" schemaversion="5">
+<suite id="s1" name="Generated Suite 1 20260320 180913" source="/workspaces/genai-driven-fastapi-testing/robot-tests/generated/generated_suite_1_20260320_180913.robot">
+<test id="s1-t1" name="Hello API Generated Cases" line="7">
 <kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-03-20T14:42:38.994705" level="INFO">Creating Session using : alias=api, url=http://localhost:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg time="2026-03-20T18:09:14.134994" level="INFO">Creating Session using : alias=api, url=http://localhost:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
 <arg>api</arg>
 <arg>${BASE_URL}</arg>
 <doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-03-20T14:42:38.994522" elapsed="0.000345"/>
+<status status="PASS" start="2026-03-20T18:09:14.134804" elapsed="0.000383"/>
 </kw>
 <for flavor="IN">
 <iter>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-03-20T14:42:38.995881" level="INFO">${name} = Alice</msg>
+<kw name="Get From Dictionary" owner="Collections">
+<msg time="2026-03-20T18:09:14.135818" level="FAIL">ValueError: Argument 'dictionary' got value '@[{'name': 'Alice', 'expected_message': 'Hello, Alice!'}, {'name': 'Bob', 'expected_message': 'Hello, Bob!'}, {'name': 'Charlie', 'expected_message': 'Hello, Charlie!'}]' that cannot be converted to Mapping: Invalid expression.</msg>
 <var>${name}</var>
-<arg>${case["name"]}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-03-20T14:42:38.995309" elapsed="0.000599"/>
+<arg>${case}</arg>
+<arg>name</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<status status="FAIL" start="2026-03-20T18:09:14.135615" elapsed="0.000890">ValueError: Argument 'dictionary' got value '@[{'name': 'Alice', 'expected_message': 'Hello, Alice!'}, {'name': 'Bob', 'expected_message': 'Hello, Bob!'}, {'name': 'Charlie', 'expected_message': 'Hello, Charlie!'}]' that cannot be converted to Mapping: Invalid expression.</status>
 </kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-03-20T14:42:38.996502" level="INFO">${expected} = Hello, Alice!</msg>
+<kw name="Get From Dictionary" owner="Collections">
 <var>${expected}</var>
-<arg>${case["expected_message"]}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-03-20T14:42:38.996002" elapsed="0.000523"/>
+<arg>${case}</arg>
+<arg>expected_message</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<status status="NOT RUN" start="2026-03-20T18:09:14.136629" elapsed="0.000020"/>
 </kw>
 <kw name="GET On Session" owner="RequestsLibrary">
-<msg time="2026-03-20T14:42:39.001366" level="INFO">GET Request : url=http://localhost:8000/hello/Alice 
- path_url=/hello/Alice 
- headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
- body=None 
- </msg>
-<msg time="2026-03-20T14:42:39.001609" level="INFO">GET Response : url=http://localhost:8000/hello/Alice 
- status=200, reason=OK 
- headers={'date': 'Fri, 20 Mar 2026 14:42:38 GMT', 'server': 'uvicorn', 'content-length': '27', 'content-type': 'application/json'} 
- body={"message":"Hello, Alice!"} 
- </msg>
-<msg time="2026-03-20T14:42:39.001740" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
 <var>${resp}</var>
 <arg>api</arg>
 <arg>/hello/${name}</arg>
 <doc>Sends a GET request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-03-20T14:42:38.996606" elapsed="0.005171"/>
-</kw>
-<kw name="Log" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.002469" level="INFO">Status: 200</msg>
-<arg>Status: ${resp.status_code}</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.001922" elapsed="0.000588"/>
-</kw>
-<kw name="Log" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.003030" level="INFO">Raw response: {"message":"Hello, Alice!"}</msg>
-<arg>Raw response: ${resp.text}</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.002598" elapsed="0.000499"/>
+<status status="NOT RUN" start="2026-03-20T18:09:14.136730" elapsed="0.000020"/>
 </kw>
 <kw name="Should Be Equal As Strings" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.003599" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
 <arg>${resp.status_code}</arg>
 <arg>200</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.003177" elapsed="0.000477"/>
+<status status="NOT RUN" start="2026-03-20T18:09:14.136826" elapsed="0.000017"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.004366" level="INFO">${json} = {'message': 'Hello, Alice!'}</msg>
 <var>${json}</var>
-<arg>json.loads("""${resp.text}""")</arg>
+<arg>__import__('json').loads(${resp.text})</arg>
 <arg>json</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.003737" elapsed="0.000654"/>
+<status status="NOT RUN" start="2026-03-20T18:09:14.136913" elapsed="0.000014"/>
 </kw>
 <kw name="Should Be Equal As Strings" owner="BuiltIn">
 <arg>${json["message"]}</arg>
 <arg>${expected}</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.004475" elapsed="0.000474"/>
+<status status="NOT RUN" start="2026-03-20T18:09:14.136994" elapsed="0.000015"/>
 </kw>
-<var name="${case}">{'name': 'Alice', 'expected_message': 'Hello, Alice!'}</var>
-<status status="PASS" start="2026-03-20T14:42:38.995229" elapsed="0.009754"/>
-</iter>
-<iter>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.005662" level="INFO">${name} = Bob</msg>
-<var>${name}</var>
-<arg>${case["name"]}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.005200" elapsed="0.000485"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.006270" level="INFO">${expected} = Hello, Bob!</msg>
-<var>${expected}</var>
-<arg>${case["expected_message"]}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.005772" elapsed="0.000521"/>
-</kw>
-<kw name="GET On Session" owner="RequestsLibrary">
-<msg time="2026-03-20T14:42:39.048312" level="INFO">GET Request : url=http://localhost:8000/hello/Bob 
- path_url=/hello/Bob 
- headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
- body=None 
- </msg>
-<msg time="2026-03-20T14:42:39.048427" level="INFO">GET Response : url=http://localhost:8000/hello/Bob 
- status=200, reason=OK 
- headers={'date': 'Fri, 20 Mar 2026 14:42:38 GMT', 'server': 'uvicorn', 'content-length': '25', 'content-type': 'application/json'} 
- body={"message":"Hello, Bob!"} 
- </msg>
-<msg time="2026-03-20T14:42:39.048619" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<var>${resp}</var>
-<arg>api</arg>
-<arg>/hello/${name}</arg>
-<doc>Sends a GET request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.006371" elapsed="0.042288"/>
-</kw>
-<kw name="Log" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.049721" level="INFO">Status: 200</msg>
-<arg>Status: ${resp.status_code}</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.048853" elapsed="0.000932"/>
-</kw>
-<kw name="Log" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.050688" level="INFO">Raw response: {"message":"Hello, Bob!"}</msg>
-<arg>Raw response: ${resp.text}</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.049919" elapsed="0.000829"/>
-</kw>
-<kw name="Should Be Equal As Strings" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.051995" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${resp.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.050871" elapsed="0.001226"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2026-03-20T14:42:39.053486" level="INFO">${json} = {'message': 'Hello, Bob!'}</msg>
-<var>${json}</var>
-<arg>json.loads("""${resp.text}""")</arg>
-<arg>json</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.052231" elapsed="0.001294"/>
-</kw>
-<kw name="Should Be Equal As Strings" owner="BuiltIn">
-<arg>${json["message"]}</arg>
-<arg>${expected}</arg>
-<doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" start="2026-03-20T14:42:39.053668" elapsed="0.000826"/>
-</kw>
-<var name="${case}">{'name': 'Bob', 'expected_message': 'Hello, Bob!'}</var>
-<status status="PASS" start="2026-03-20T14:42:39.005133" elapsed="0.049419"/>
+<var name="${case}">@[{'name': 'Alice', 'expected_message': 'Hello, Alice!'}, {'name': 'Bob', 'expected_message': 'Hello, Bob!'}, {'name': 'Charlie', 'expected_message': 'Hello, Charlie!'}]</var>
+<status status="FAIL" start="2026-03-20T18:09:14.135529" elapsed="0.001548">ValueError: Argument 'dictionary' got value '@[{'name': 'Alice', 'expected_message': 'Hello, Alice!'}, {'name': 'Bob', 'expected_message': 'Hello, Bob!'}, {'name': 'Charlie', 'expected_message': 'Hello, Charlie!'}]' that cannot be converted to Mapping: Invalid expression.</status>
 </iter>
 <var>${case}</var>
-<value>@{cases}</value>
-<status status="PASS" start="2026-03-20T14:42:38.994997" elapsed="0.059618"/>
+<value>@[{'name': 'Alice', 'expected_message': 'Hello, Alice!'}, {'name': 'Bob', 'expected_message': 'Hello, Bob!'}, {'name': 'Charlie', 'expected_message': 'Hello, Charlie!'}]</value>
+<status status="FAIL" start="2026-03-20T18:09:14.135333" elapsed="0.001804">ValueError: Argument 'dictionary' got value '@[{'name': 'Alice', 'expected_message': 'Hello, Alice!'}, {'name': 'Bob', 'expected_message': 'Hello, Bob!'}, {'name': 'Charlie', 'expected_message': 'Hello, Charlie!'}]' that cannot be converted to Mapping: Invalid expression.</status>
 </for>
-<status status="PASS" start="2026-03-20T14:42:38.993844" elapsed="0.061025"/>
+<status status="FAIL" start="2026-03-20T18:09:14.134046" elapsed="0.003288">ValueError: Argument 'dictionary' got value '@[{'name': 'Alice', 'expected_message': 'Hello, Alice!'}, {'name': 'Bob', 'expected_message': 'Hello, Bob!'}, {'name': 'Charlie', 'expected_message': 'Hello, Charlie!'}]' that cannot be converted to Mapping: Invalid expression.</status>
 </test>
-<status status="PASS" start="2026-03-20T14:42:38.890430" elapsed="0.165209"/>
+<status status="FAIL" start="2026-03-20T18:09:14.026789" elapsed="0.110971"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Generated" id="s1" pass="1" fail="0" skip="0">Generated</stat>
+<stat name="Generated Suite 1 20260320 180913" id="s1" pass="0" fail="1" skip="0">Generated Suite 1 20260320 180913</stat>
 </suite>
 </statistics>
 <errors>
