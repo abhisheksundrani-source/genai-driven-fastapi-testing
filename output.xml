@@ -1,54 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.12.1 on linux)" generated="2026-03-20T11:33:56.531670" rpa="false" schemaversion="5">
-<suite id="s1" name="Suites" source="/workspaces/genai-driven-fastapi-testing/robot-tests/suites">
-<suite id="s1-s1" name="Health" source="/workspaces/genai-driven-fastapi-testing/robot-tests/suites/health.robot">
-<test id="s1-s1-t1" name="Health Check API" line="5">
+<robot generator="Robot 7.4.2 (Python 3.12.1 on linux)" generated="2026-03-20T12:30:36.710975" rpa="false" schemaversion="5">
+<suite id="s1" name="Generated" source="/workspaces/genai-driven-fastapi-testing/robot-tests/suites/generated.robot">
+<test id="s1-t1" name="Hello API Generated Cases" line="6">
 <kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-03-20T11:33:56.778792" level="INFO">Creating Session using : alias=api, url=http://localhost:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg time="2026-03-20T12:30:36.811593" level="INFO">Creating Session using : alias=api, url=http://localhost:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
 <arg>api</arg>
 <arg>http://localhost:8000</arg>
 <doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-03-20T11:33:56.778642" elapsed="0.000321"/>
+<status status="PASS" start="2026-03-20T12:30:36.811450" elapsed="0.000300"/>
 </kw>
+<for flavor="IN">
+<iter>
 <kw name="GET On Session" owner="RequestsLibrary">
-<msg time="2026-03-20T11:33:56.782539" level="INFO">GET Request : url=http://localhost:8000/health 
- path_url=/health 
+<msg time="2026-03-20T12:30:36.818985" level="INFO">GET Request : url=http://localhost:8000/hello/Alice 
+ path_url=/hello/Alice 
  headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
  body=None 
  </msg>
-<msg time="2026-03-20T11:33:56.782640" level="INFO">GET Response : url=http://localhost:8000/health 
+<msg time="2026-03-20T12:30:36.819103" level="INFO">GET Response : url=http://localhost:8000/hello/Alice 
  status=200, reason=OK 
- headers={'date': 'Fri, 20 Mar 2026 11:33:56 GMT', 'server': 'uvicorn', 'content-length': '15', 'content-type': 'application/json'} 
- body={"status":"ok"} 
+ headers={'date': 'Fri, 20 Mar 2026 12:30:36 GMT', 'server': 'uvicorn', 'content-length': '27', 'content-type': 'application/json'} 
+ body={"message":"Hello, Alice!"} 
  </msg>
-<msg time="2026-03-20T11:33:56.782745" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<msg time="2026-03-20T12:30:36.819207" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
 <var>${resp}</var>
 <arg>api</arg>
-<arg>/health</arg>
+<arg>/hello/${case["name"]}</arg>
 <doc>Sends a GET request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-03-20T11:33:56.779141" elapsed="0.003628"/>
+<status status="PASS" start="2026-03-20T12:30:36.812170" elapsed="0.007063"/>
 </kw>
 <kw name="Should Be Equal As Strings" owner="BuiltIn">
-<arg>${resp.json()["status"]}</arg>
-<arg>ok</arg>
+<arg>${resp.json()["message"]}</arg>
+<arg>${case["expected_message"]}</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" start="2026-03-20T11:33:56.782923" elapsed="0.000710"/>
+<status status="PASS" start="2026-03-20T12:30:36.819331" elapsed="0.000917"/>
 </kw>
-<status status="PASS" start="2026-03-20T11:33:56.777953" elapsed="0.005892"/>
+<var name="${case}">{'name': 'Alice', 'expected_message': 'Hello, Alice!'}</var>
+<status status="PASS" start="2026-03-20T12:30:36.812088" elapsed="0.008199"/>
+</iter>
+<iter>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2026-03-20T12:30:36.822458" level="INFO">GET Request : url=http://localhost:8000/hello/Bob 
+ path_url=/hello/Bob 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2026-03-20T12:30:36.822539" level="INFO">GET Response : url=http://localhost:8000/hello/Bob 
+ status=200, reason=OK 
+ headers={'date': 'Fri, 20 Mar 2026 12:30:36 GMT', 'server': 'uvicorn', 'content-length': '25', 'content-type': 'application/json'} 
+ body={"message":"Hello, Bob!"} 
+ </msg>
+<msg time="2026-03-20T12:30:36.822688" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<var>${resp}</var>
+<arg>api</arg>
+<arg>/hello/${case["name"]}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-03-20T12:30:36.820457" elapsed="0.002259"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resp.json()["message"]}</arg>
+<arg>${case["expected_message"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-03-20T12:30:36.822811" elapsed="0.000760"/>
+</kw>
+<var name="${case}">{'name': 'Bob', 'expected_message': 'Hello, Bob!'}</var>
+<status status="PASS" start="2026-03-20T12:30:36.820389" elapsed="0.003219"/>
+</iter>
+<iter>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2026-03-20T12:30:36.825496" level="INFO">GET Request : url=http://localhost:8000/hello/ 
+ path_url=/hello/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2026-03-20T12:30:36.825564" level="INFO">GET Response : url=http://localhost:8000/hello/ 
+ status=404, reason=Not Found 
+ headers={'date': 'Fri, 20 Mar 2026 12:30:36 GMT', 'server': 'uvicorn', 'content-length': '22', 'content-type': 'application/json'} 
+ body={"detail":"Not Found"} 
+ </msg>
+<msg time="2026-03-20T12:30:36.825716" level="FAIL">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</msg>
+<var>${resp}</var>
+<arg>api</arg>
+<arg>/hello/${case["name"]}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2026-03-20T12:30:36.823771" elapsed="0.003026">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</status>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${resp.json()["message"]}</arg>
+<arg>${case["expected_message"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2026-03-20T12:30:36.826908" elapsed="0.000020"/>
+</kw>
+<var name="${case}">{'name': '', 'expected_message': 'Hello, !'}</var>
+<status status="FAIL" start="2026-03-20T12:30:36.823701" elapsed="0.003282">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</status>
+</iter>
+<var>${case}</var>
+<value>@{cases}</value>
+<status status="FAIL" start="2026-03-20T12:30:36.811877" elapsed="0.015185">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</status>
+</for>
+<status status="FAIL" start="2026-03-20T12:30:36.810756" elapsed="0.016522">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</status>
 </test>
-<status status="PASS" start="2026-03-20T11:33:56.556209" elapsed="0.228055"/>
-</suite>
-<status status="PASS" start="2026-03-20T11:33:56.532822" elapsed="0.251983"/>
+<status status="FAIL" start="2026-03-20T12:30:36.711810" elapsed="0.115898"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Suites" id="s1" pass="1" fail="0" skip="0">Suites</stat>
-<stat name="Health" id="s1-s1" pass="1" fail="0" skip="0">Suites.Health</stat>
+<stat name="Generated" id="s1" pass="0" fail="1" skip="0">Generated</stat>
 </suite>
 </statistics>
 <errors>
