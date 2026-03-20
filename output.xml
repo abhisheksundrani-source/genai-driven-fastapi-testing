@@ -1,52 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.12.1 on linux)" generated="2026-03-20T11:17:45.192516" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.12.1 on linux)" generated="2026-03-20T11:33:56.531670" rpa="false" schemaversion="5">
 <suite id="s1" name="Suites" source="/workspaces/genai-driven-fastapi-testing/robot-tests/suites">
 <suite id="s1-s1" name="Health" source="/workspaces/genai-driven-fastapi-testing/robot-tests/suites/health.robot">
 <test id="s1-s1-t1" name="Health Check API" line="5">
-<kw name="Create Session">
-<msg time="2026-03-20T11:17:45.236058" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-03-20T11:33:56.778792" level="INFO">Creating Session using : alias=api, url=http://localhost:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
 <arg>api</arg>
 <arg>http://localhost:8000</arg>
-<status status="FAIL" start="2026-03-20T11:17:45.235988" elapsed="0.000136">No keyword with name 'Create Session' found.</status>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-03-20T11:33:56.778642" elapsed="0.000321"/>
 </kw>
-<kw name="GET On Session">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2026-03-20T11:33:56.782539" level="INFO">GET Request : url=http://localhost:8000/health 
+ path_url=/health 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2026-03-20T11:33:56.782640" level="INFO">GET Response : url=http://localhost:8000/health 
+ status=200, reason=OK 
+ headers={'date': 'Fri, 20 Mar 2026 11:33:56 GMT', 'server': 'uvicorn', 'content-length': '15', 'content-type': 'application/json'} 
+ body={"status":"ok"} 
+ </msg>
+<msg time="2026-03-20T11:33:56.782745" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
 <var>${resp}</var>
 <arg>api</arg>
 <arg>/health</arg>
-<status status="NOT RUN" start="2026-03-20T11:17:45.236391" elapsed="0.000038"/>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-03-20T11:33:56.779141" elapsed="0.003628"/>
 </kw>
 <kw name="Should Be Equal As Strings" owner="BuiltIn">
 <arg>${resp.json()["status"]}</arg>
 <arg>ok</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="NOT RUN" start="2026-03-20T11:17:45.236628" elapsed="0.000026"/>
+<status status="PASS" start="2026-03-20T11:33:56.782923" elapsed="0.000710"/>
 </kw>
-<status status="FAIL" start="2026-03-20T11:17:45.233988" elapsed="0.002866">No keyword with name 'Create Session' found.</status>
+<status status="PASS" start="2026-03-20T11:33:56.777953" elapsed="0.005892"/>
 </test>
-<status status="FAIL" start="2026-03-20T11:17:45.231441" elapsed="0.005917"/>
+<status status="PASS" start="2026-03-20T11:33:56.556209" elapsed="0.228055"/>
 </suite>
-<status status="FAIL" start="2026-03-20T11:17:45.193817" elapsed="0.044052"/>
+<status status="PASS" start="2026-03-20T11:33:56.532822" elapsed="0.251983"/>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1" skip="0">All Tests</stat>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Suites" id="s1" pass="0" fail="1" skip="0">Suites</stat>
-<stat name="Health" id="s1-s1" pass="0" fail="1" skip="0">Suites.Health</stat>
+<stat name="Suites" id="s1" pass="1" fail="0" skip="0">Suites</stat>
+<stat name="Health" id="s1-s1" pass="1" fail="0" skip="0">Suites.Health</stat>
 </suite>
 </statistics>
 <errors>
-<msg time="2026-03-20T11:17:45.233520" level="ERROR">Error in file '/workspaces/genai-driven-fastapi-testing/robot-tests/suites/health.robot' on line 2: Importing library 'RequestsLibrary' failed: ModuleNotFoundError: No module named 'RequestsLibrary'
-Traceback (most recent call last):
-  None
-PYTHONPATH:
-  /workspaces/genai-driven-fastapi-testing/venv/bin
-  /home/codespace/.python/current/lib/python312.zip
-  /home/codespace/.python/current/lib/python3.12
-  /home/codespace/.python/current/lib/python3.12/lib-dynload
-  /workspaces/genai-driven-fastapi-testing/venv/lib/python3.12/site-packages</msg>
 </errors>
 </robot>

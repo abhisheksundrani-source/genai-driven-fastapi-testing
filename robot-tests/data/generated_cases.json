@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Alice",
+    "expected_message": "Hello, Alice!"
+  },
+  {
+    "name": "Bob",
+    "expected_message": "Hello, Bob!"
+  },
+  {
+    "name": "",
+    "expected_message": "Hello, !"
+  },
+  {
+    "name": "John_Doe_123",
+    "expected_message": "Hello, John_Doe_123!"
+  },
+  {
+    "name": "@#$%^&*",
+    "expected_message": "Hello, @#$%^&*!"
+  },
+  {
+    "name": "ThisIsAVeryLongNameThatExceedsNormalLengthExpectations",
+    "expected_message": "Hello, ThisIsAVeryLongNameThatExceedsNormalLengthExpectations!"
+  },
+  {
+    "name": "null",
+    "expected_message": "Hello, null!"
+  },
+  {
+    "name": "\u6d4b\u8bd5",
+    "expected_message": "Hello, \u6d4b\u8bd5!"
+  },
+  {
+    "name": "   ",
+    "expected_message": "Hello,    !"
+  },
+  {
+    "name": "b54gjyiI7L5RxkiPp5GZ",
+    "expected_message": "Hello, wqDM3rLrpNZfpSD020eN!"
+  },
+  {
+    "name": "Alice",
+    "expected_message": "Hello, Alice!"
+  },
+  {
+    "name": "Bob",
+    "expected_message": "Hello, Bob!"
+  },
+  {
+    "name": "",
+    "expected_message": "Hello, !"
+  },
+  {
+    "name": "@#$%^&*",
+    "expected_message": "Hello, @#$%^&*!"
+  },
+  {
+    "name": "2bi5OsMMo4NArSPjblez",
+    "expected_message": "Hello, 7tHiGZFbXryHBGo0oAso!"
+  }
+]
