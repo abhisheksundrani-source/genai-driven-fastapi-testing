@@ -1,6 +1,8 @@
 version: "3.9"
 services:
   fastapi:
-    build: docker
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     ports:
       - "8000:8000"
