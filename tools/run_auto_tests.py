@@ -1,76 +1,81 @@
-import os, json, random, string, subprocess
+import os
+import json
+import subprocess
+import requests
+from datetime import datetime
 from robot.api import ExecutionResult
 
-BASE_URL = os.getenv("BASE_URL") or get_base_url()
-
-def random_string(length=20):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
-
 def get_base_url():
-    # Try to auto-detect Codespaces proxy
-    codespace = os.getenv("CODESPACE_NAME")
     port = "8000"
+    codespace = os.getenv("CODESPACE_NAME")
     if codespace:
-        return f"https://{codespace}-{port}.app.github.dev"
-    # Allow manual override via BASE_URL env var
-    if os.getenv("BASE_URL"):
-        return os.getenv("BASE_URL")
-    # Fallback to localhost
-    return f"http://localhost:{port}"
+        remote_url = f"https://{codespace}-{port}.app.github.dev"
+        try:
+            resp = requests.get(f"{remote_url}/health", timeout=3, verify=False)
+            if resp.headers.get("content-type", "").startswith("application/json"):
+                data = resp.json()
+                if data.get("status") == "ok":
+                    print(f"✅ Remote endpoint healthy at {remote_url}")
+                    return remote_url
+                else:
+                    print(f"⚠️ Remote returned JSON but not healthy: {data}")
+            else:
+                print("⚠️ Remote returned non-JSON, falling back to localhost")
+        except Exception as e:
+            print(f"⚠️ Remote unreachable ({e}), falling back to localhost")
+    local_url = f"http://localhost:{port}"
+    print(f"✅ Using localhost endpoint {local_url}")
+    return local_url
 
-def generate_cases(extend=True):
-    new_cases = [
-        {"name": "Alice", "expected_message": "Hello, Alice!"},
-        {"name": "Bob", "expected_message": "Hello, Bob!"},
-        {"name": "", "expected_message": "Hello, !"},
-        {"name": "@#$%^&*", "expected_message": "Hello, @#$%^&*!"},
-        {"name": random_string(), "expected_message": f"Hello, {random_string()}!"}
-    ]
-    path = "robot-tests/data/generated_cases.json"
-    if extend and os.path.exists(path):
-        existing = json.load(open(path))
-        cases = existing["cases"] + new_cases
-    else:
-        cases = new_cases
-    json.dump({"cases": cases}, open(path, "w"), indent=2)
-    return cases
-
-def ensure_suite():
-    suite_path = "robot-tests/suites/generated.robot"
-    os.makedirs(os.path.dirname(suite_path), exist_ok=True)
-    with open(suite_path, "w") as f:
-        f.write(f"""*** Settings ***
-Library    RequestsLibrary
-Variables  ../data/generated_cases.json
-
-*** Test Cases ***
-Hello API Generated Cases
-    Create Session    api    {BASE_URL}
-    FOR    ${{case}}    IN    @{cases}
-        ${{resp}}=    GET On Session    api    /hello/${{case["name"]}}
-        Should Be Equal As Strings    ${{resp.json()["message"]}}    ${{case["expected_message"]}}
-    END
-""")
+BASE_URL = get_base_url()
 
 def run_robot():
     print(f"\n➡️ Running tests against: {BASE_URL}\n")
-    subprocess.run(["robot", "robot-tests/suites/generated.robot"], check=True)
+    subprocess.run([
+        "robot",
+        "--variable", f"BASE_URL:{BASE_URL}",
+        "robot-tests/suites/generated.robot"
+    ], check=True)
+
     result = ExecutionResult("output.xml")
-    stats = {
-        "total": result.suite.statistics.total.all,
-        "passed": result.suite.statistics.total.passed,
-        "failed": result.suite.statistics.total.failed
+
+    total_tests = result.statistics.total.total
+    passed_tests = result.statistics.total.passed
+    failed_tests = result.statistics.total.failed
+    skipped_tests = result.statistics.total.skipped
+
+    print("\n=== Test Summary ===")
+    print(f"Total: {total_tests}, Passed: {passed_tests}, Failed: {failed_tests}, Skipped: {skipped_tests}")
+
+    # Insights
+    pass_rate = (passed_tests / total_tests * 100) if total_tests else 0
+    fail_rate = (failed_tests / total_tests * 100) if total_tests else 0
+
+    insights = {
+        "total": total_tests,
+        "passed": passed_tests,
+        "failed": failed_tests,
+        "skipped": skipped_tests,
+        "pass_rate_percent": round(pass_rate, 2),
+        "fail_rate_percent": round(fail_rate, 2),
+        "endpoint": BASE_URL,
+        "timestamp": datetime.now().isoformat(timespec="seconds")
     }
-    return stats
+
+    return insights
 
 if __name__ == "__main__":
-    choice = input("Extend existing suite (y/n)? ").lower().startswith("y")
-    cases = generate_cases(extend=choice)
-    ensure_suite()
     stats = run_robot()
-    print(f"\nGenerated {len(cases)} cases.")
-    print(f"Results: {stats['passed']} passed / {stats['failed']} failed / {stats['total']} total")
-    if stats["failed"] > 0:
-        print("Insights: Some edge cases failed — API may need stronger input validation.")
-    else:
-        print("Insights: All cases passed — API handled tested variations well.")
+
+    # Ensure results directory exists under robot-tests
+    results_dir = os.path.join("robot-tests", "results")
+    os.makedirs(results_dir, exist_ok=True)
+
+    # Unique filename with timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = os.path.join(results_dir, f"test_results_{timestamp}.json")
+
+    with open(filename, "w") as f:
+        json.dump(stats, f, indent=2)
+
+    print(f"\n✅ Results exported to {filename}")

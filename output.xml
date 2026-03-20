@@ -1,115 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.12.1 on linux)" generated="2026-03-20T12:30:36.710975" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.12.1 on linux)" generated="2026-03-20T14:42:38.889017" rpa="false" schemaversion="5">
 <suite id="s1" name="Generated" source="/workspaces/genai-driven-fastapi-testing/robot-tests/suites/generated.robot">
-<test id="s1-t1" name="Hello API Generated Cases" line="6">
+<test id="s1-t1" name="Hello API Existing Cases" line="6">
 <kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-03-20T12:30:36.811593" level="INFO">Creating Session using : alias=api, url=http://localhost:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg time="2026-03-20T14:42:38.994705" level="INFO">Creating Session using : alias=api, url=http://localhost:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
 <arg>api</arg>
-<arg>http://localhost:8000</arg>
+<arg>${BASE_URL}</arg>
 <doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-03-20T12:30:36.811450" elapsed="0.000300"/>
+<status status="PASS" start="2026-03-20T14:42:38.994522" elapsed="0.000345"/>
 </kw>
 <for flavor="IN">
 <iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-03-20T14:42:38.995881" level="INFO">${name} = Alice</msg>
+<var>${name}</var>
+<arg>${case["name"]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-03-20T14:42:38.995309" elapsed="0.000599"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-03-20T14:42:38.996502" level="INFO">${expected} = Hello, Alice!</msg>
+<var>${expected}</var>
+<arg>${case["expected_message"]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-03-20T14:42:38.996002" elapsed="0.000523"/>
+</kw>
 <kw name="GET On Session" owner="RequestsLibrary">
-<msg time="2026-03-20T12:30:36.818985" level="INFO">GET Request : url=http://localhost:8000/hello/Alice 
+<msg time="2026-03-20T14:42:39.001366" level="INFO">GET Request : url=http://localhost:8000/hello/Alice 
  path_url=/hello/Alice 
  headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
  body=None 
  </msg>
-<msg time="2026-03-20T12:30:36.819103" level="INFO">GET Response : url=http://localhost:8000/hello/Alice 
+<msg time="2026-03-20T14:42:39.001609" level="INFO">GET Response : url=http://localhost:8000/hello/Alice 
  status=200, reason=OK 
- headers={'date': 'Fri, 20 Mar 2026 12:30:36 GMT', 'server': 'uvicorn', 'content-length': '27', 'content-type': 'application/json'} 
+ headers={'date': 'Fri, 20 Mar 2026 14:42:38 GMT', 'server': 'uvicorn', 'content-length': '27', 'content-type': 'application/json'} 
  body={"message":"Hello, Alice!"} 
  </msg>
-<msg time="2026-03-20T12:30:36.819207" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<msg time="2026-03-20T14:42:39.001740" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
 <var>${resp}</var>
 <arg>api</arg>
-<arg>/hello/${case["name"]}</arg>
+<arg>/hello/${name}</arg>
 <doc>Sends a GET request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-03-20T12:30:36.812170" elapsed="0.007063"/>
+<status status="PASS" start="2026-03-20T14:42:38.996606" elapsed="0.005171"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-03-20T14:42:39.002469" level="INFO">Status: 200</msg>
+<arg>Status: ${resp.status_code}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.001922" elapsed="0.000588"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-03-20T14:42:39.003030" level="INFO">Raw response: {"message":"Hello, Alice!"}</msg>
+<arg>Raw response: ${resp.text}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.002598" elapsed="0.000499"/>
 </kw>
 <kw name="Should Be Equal As Strings" owner="BuiltIn">
-<arg>${resp.json()["message"]}</arg>
-<arg>${case["expected_message"]}</arg>
+<msg time="2026-03-20T14:42:39.003599" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" start="2026-03-20T12:30:36.819331" elapsed="0.000917"/>
+<status status="PASS" start="2026-03-20T14:42:39.003177" elapsed="0.000477"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-03-20T14:42:39.004366" level="INFO">${json} = {'message': 'Hello, Alice!'}</msg>
+<var>${json}</var>
+<arg>json.loads("""${resp.text}""")</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.003737" elapsed="0.000654"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${json["message"]}</arg>
+<arg>${expected}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.004475" elapsed="0.000474"/>
 </kw>
 <var name="${case}">{'name': 'Alice', 'expected_message': 'Hello, Alice!'}</var>
-<status status="PASS" start="2026-03-20T12:30:36.812088" elapsed="0.008199"/>
+<status status="PASS" start="2026-03-20T14:42:38.995229" elapsed="0.009754"/>
 </iter>
 <iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-03-20T14:42:39.005662" level="INFO">${name} = Bob</msg>
+<var>${name}</var>
+<arg>${case["name"]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.005200" elapsed="0.000485"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-03-20T14:42:39.006270" level="INFO">${expected} = Hello, Bob!</msg>
+<var>${expected}</var>
+<arg>${case["expected_message"]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.005772" elapsed="0.000521"/>
+</kw>
 <kw name="GET On Session" owner="RequestsLibrary">
-<msg time="2026-03-20T12:30:36.822458" level="INFO">GET Request : url=http://localhost:8000/hello/Bob 
+<msg time="2026-03-20T14:42:39.048312" level="INFO">GET Request : url=http://localhost:8000/hello/Bob 
  path_url=/hello/Bob 
  headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
  body=None 
  </msg>
-<msg time="2026-03-20T12:30:36.822539" level="INFO">GET Response : url=http://localhost:8000/hello/Bob 
+<msg time="2026-03-20T14:42:39.048427" level="INFO">GET Response : url=http://localhost:8000/hello/Bob 
  status=200, reason=OK 
- headers={'date': 'Fri, 20 Mar 2026 12:30:36 GMT', 'server': 'uvicorn', 'content-length': '25', 'content-type': 'application/json'} 
+ headers={'date': 'Fri, 20 Mar 2026 14:42:38 GMT', 'server': 'uvicorn', 'content-length': '25', 'content-type': 'application/json'} 
  body={"message":"Hello, Bob!"} 
  </msg>
-<msg time="2026-03-20T12:30:36.822688" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<msg time="2026-03-20T14:42:39.048619" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
 <var>${resp}</var>
 <arg>api</arg>
-<arg>/hello/${case["name"]}</arg>
+<arg>/hello/${name}</arg>
 <doc>Sends a GET request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-03-20T12:30:36.820457" elapsed="0.002259"/>
+<status status="PASS" start="2026-03-20T14:42:39.006371" elapsed="0.042288"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-03-20T14:42:39.049721" level="INFO">Status: 200</msg>
+<arg>Status: ${resp.status_code}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.048853" elapsed="0.000932"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-03-20T14:42:39.050688" level="INFO">Raw response: {"message":"Hello, Bob!"}</msg>
+<arg>Raw response: ${resp.text}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.049919" elapsed="0.000829"/>
 </kw>
 <kw name="Should Be Equal As Strings" owner="BuiltIn">
-<arg>${resp.json()["message"]}</arg>
-<arg>${case["expected_message"]}</arg>
+<msg time="2026-03-20T14:42:39.051995" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
 <doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" start="2026-03-20T12:30:36.822811" elapsed="0.000760"/>
+<status status="PASS" start="2026-03-20T14:42:39.050871" elapsed="0.001226"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-03-20T14:42:39.053486" level="INFO">${json} = {'message': 'Hello, Bob!'}</msg>
+<var>${json}</var>
+<arg>json.loads("""${resp.text}""")</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.052231" elapsed="0.001294"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${json["message"]}</arg>
+<arg>${expected}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2026-03-20T14:42:39.053668" elapsed="0.000826"/>
 </kw>
 <var name="${case}">{'name': 'Bob', 'expected_message': 'Hello, Bob!'}</var>
-<status status="PASS" start="2026-03-20T12:30:36.820389" elapsed="0.003219"/>
-</iter>
-<iter>
-<kw name="GET On Session" owner="RequestsLibrary">
-<msg time="2026-03-20T12:30:36.825496" level="INFO">GET Request : url=http://localhost:8000/hello/ 
- path_url=/hello/ 
- headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
- body=None 
- </msg>
-<msg time="2026-03-20T12:30:36.825564" level="INFO">GET Response : url=http://localhost:8000/hello/ 
- status=404, reason=Not Found 
- headers={'date': 'Fri, 20 Mar 2026 12:30:36 GMT', 'server': 'uvicorn', 'content-length': '22', 'content-type': 'application/json'} 
- body={"detail":"Not Found"} 
- </msg>
-<msg time="2026-03-20T12:30:36.825716" level="FAIL">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</msg>
-<var>${resp}</var>
-<arg>api</arg>
-<arg>/hello/${case["name"]}</arg>
-<doc>Sends a GET request on a previously created HTTP Session.</doc>
-<status status="FAIL" start="2026-03-20T12:30:36.823771" elapsed="0.003026">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</status>
-</kw>
-<kw name="Should Be Equal As Strings" owner="BuiltIn">
-<arg>${resp.json()["message"]}</arg>
-<arg>${case["expected_message"]}</arg>
-<doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="NOT RUN" start="2026-03-20T12:30:36.826908" elapsed="0.000020"/>
-</kw>
-<var name="${case}">{'name': '', 'expected_message': 'Hello, !'}</var>
-<status status="FAIL" start="2026-03-20T12:30:36.823701" elapsed="0.003282">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</status>
+<status status="PASS" start="2026-03-20T14:42:39.005133" elapsed="0.049419"/>
 </iter>
 <var>${case}</var>
 <value>@{cases}</value>
-<status status="FAIL" start="2026-03-20T12:30:36.811877" elapsed="0.015185">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</status>
+<status status="PASS" start="2026-03-20T14:42:38.994997" elapsed="0.059618"/>
 </for>
-<status status="FAIL" start="2026-03-20T12:30:36.810756" elapsed="0.016522">HTTPError: 404 Client Error: Not Found for url: http://localhost:8000/hello/</status>
+<status status="PASS" start="2026-03-20T14:42:38.993844" elapsed="0.061025"/>
 </test>
-<status status="FAIL" start="2026-03-20T12:30:36.711810" elapsed="0.115898"/>
+<status status="PASS" start="2026-03-20T14:42:38.890430" elapsed="0.165209"/>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1" skip="0">All Tests</stat>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Generated" id="s1" pass="0" fail="1" skip="0">Generated</stat>
+<stat name="Generated" id="s1" pass="1" fail="0" skip="0">Generated</stat>
 </suite>
 </statistics>
 <errors>

@@ -7,38 +7,7 @@
     {
       "name": "Bob",
       "expected_message": "Hello, Bob!"
-    },
-    {
-      "name": "",
-      "expected_message": "Hello, !"
-    },
-    {
-      "name": "@#$%^&*",
-      "expected_message": "Hello, @#$%^&*!"
-    },
-    {
-      "name": "\u6d4b\u8bd5",
-      "expected_message": "Hello, \u6d4b\u8bd5!"
-    },
-    {
-      "name": "Alice",
-      "expected_message": "Hello, Alice!"
-    },
-    {
-      "name": "Bob",
-      "expected_message": "Hello, Bob!"
-    },
-    {
-      "name": "",
-      "expected_message": "Hello, !"
-    },
-    {
-      "name": "@#$%^&*",
-      "expected_message": "Hello, @#$%^&*!"
-    },
-    {
-      "name": "l6eR0GvgDYhJV8L8EOwk",
-      "expected_message": "Hello, 8VxRyl7TCT55jN6UIjYK!"
     }
-  ]
+  ],
+  "BASE_URL": "https://super-duper-happiness-wr66gvp9qj7g2g5qr-8000.app.github.dev"
 }

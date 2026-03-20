@@ -1,0 +1,10 @@
+{
+  "total": 1,
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "pass_rate_percent": 100.0,
+  "fail_rate_percent": 0.0,
+  "endpoint": "http://localhost:8000",
+  "timestamp": "2026-03-20T14:42:39"
+}

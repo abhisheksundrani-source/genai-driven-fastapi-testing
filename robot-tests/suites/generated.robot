@@ -3,9 +3,15 @@ Library    RequestsLibrary
 Variables  ../data/generated_cases.json
 
 *** Test Cases ***
-Hello API Generated Cases
-    Create Session    api    http://localhost:8000
+Hello API Existing Cases
+    Create Session    api    ${BASE_URL}
     FOR    ${case}    IN    @{cases}
-        ${resp}=    GET On Session    api    /hello/${case["name"]}
-        Should Be Equal As Strings    ${resp.json()["message"]}    ${case["expected_message"]}
+        ${name}=    Set Variable    ${case["name"]}
+        ${expected}=    Set Variable    ${case["expected_message"]}
+        ${resp}=    GET On Session    api    /hello/${name}
+        Log    Status: ${resp.status_code}
+        Log    Raw response: ${resp.text}
+        Should Be Equal As Strings    ${resp.status_code}    200
+        ${json}=    Evaluate    json.loads("""${resp.text}""")    json
+        Should Be Equal As Strings    ${json["message"]}    ${expected}
     END
